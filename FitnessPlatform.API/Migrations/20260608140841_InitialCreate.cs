@@ -31,8 +31,7 @@ namespace FitnessPlatform.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    Discriminator = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     TrainerId = table.Column<string>(type: "text", nullable: true),
                     SuperAdminId = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),

@@ -4,16 +4,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitnessPlatform.API.Data
 {
-   public class AppDbContext : IdentityDbContext
+   public class AppDbContext : IdentityDbContext<AppUser>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options) { }
 
     public DbSet<TrainingPlan> TrainingPlans { get; set; }
     public DbSet<NutritionPlan> NutritionPlans { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        // RefreshToken -> User
+        builder.Entity<RefreshToken>()
+            .HasOne(rt => rt.User)
+            .WithMany()
+            .HasForeignKey(rt => rt.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<RefreshToken>()
+            .HasIndex(rt => rt.Token)
+            .IsUnique();
 
         // Trainer -> Clients
         builder.Entity<AppUser>()
